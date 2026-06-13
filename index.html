@@ -933,7 +933,7 @@
                 musicBtn.classList.add('show');
                 // Tocar música automaticamente
                 setTimeout(() => {
-                    if (!isPlaying) playMusic();
+                    startMusic();
                 }, 500);
             } else {
                 lockError.classList.add('show');
@@ -1005,22 +1005,6 @@
                 musicBtn.textContent = '🎵 ♫';
             });
         }
-
-        // Modificar a função unlock para iniciar a música
-        const originalUnlockBtn = document.getElementById('unlockBtn');
-        const originalClickHandler = originalUnlockBtn.onclick;
-
-        // Armazenar referência original da função unlock
-        const originalUnlock = unlock;
-        unlock = function() {
-            originalUnlock();
-            // Se desbloqueou, iniciar a música
-            if (!lockScreen.classList.contains('hidden')) {
-                setTimeout(() => {
-                    startMusic();
-                }, 500);
-            }
-        };
 
         musicBtn.addEventListener('click', () => {
             const audio = createAudioPlayer();
