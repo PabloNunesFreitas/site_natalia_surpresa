@@ -994,6 +994,34 @@
             return audioPlayer;
         }
 
+        function startMusic() {
+            const audio = createAudioPlayer();
+            audio.play().then(() => {
+                isPlaying = true;
+                musicBtn.textContent = '🎵 ♫';
+            }).catch(err => {
+                console.log('Áudio iniciando...');
+                isPlaying = true;
+                musicBtn.textContent = '🎵 ♫';
+            });
+        }
+
+        // Modificar a função unlock para iniciar a música
+        const originalUnlockBtn = document.getElementById('unlockBtn');
+        const originalClickHandler = originalUnlockBtn.onclick;
+
+        // Armazenar referência original da função unlock
+        const originalUnlock = unlock;
+        unlock = function() {
+            originalUnlock();
+            // Se desbloqueou, iniciar a música
+            if (!lockScreen.classList.contains('hidden')) {
+                setTimeout(() => {
+                    startMusic();
+                }, 500);
+            }
+        };
+
         musicBtn.addEventListener('click', () => {
             const audio = createAudioPlayer();
 
@@ -1002,14 +1030,7 @@
                 isPlaying = false;
                 musicBtn.textContent = '🎵';
             } else {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.textContent = '🎵 ♫';
-                }).catch(err => {
-                    console.log('Áudio iniciando...', err);
-                    isPlaying = true;
-                    musicBtn.textContent = '🎵 ♫';
-                });
+                startMusic();
             }
         });
     </script>
