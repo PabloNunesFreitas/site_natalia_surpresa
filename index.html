@@ -980,87 +980,23 @@
         const today = new Date();
         dateEl.textContent = today.toLocaleDateString('pt-BR', options);
 
-        // Música Romântica - "Ainda Bem" Xande de Pilares via Spotify
+        // Música Romântica - "Ainda Bem" Xande de Pilares
         const musicBtn = document.getElementById('musicBtn');
-        let isPlayingMusic = false;
 
-        function toggleMusic() {
-            if (isPlayingMusic) {
-                stopMusic();
-            } else {
-                playMusic();
-            }
-        }
+        musicBtn.addEventListener('click', () => {
+            // Abrir a música no Spotify ou YouTube
+            const spotifyUrl = 'https://open.spotify.com/track/0GBsYdxpAPsOd6H8QzGCCU';
+            const youtubeUrl = 'https://www.youtube.com/watch?v=cNaUG5Y8BnE';
 
-        function playMusic() {
-            isPlayingMusic = true;
+            // Tenta abrir no Spotify, se não tiver, abre no YouTube
+            window.open(spotifyUrl, '_blank');
+
+            // Mudar o ícone temporariamente
             musicBtn.textContent = '🎵 ♫';
-
-            // Abrir Spotify em nova aba (ou usar player web)
-            // Link para a música no Spotify
-            const spotifyUrl = 'https://open.spotify.com/track/0GBsYdxpAPsOd6H8QzGCCU?utm_source=generator';
-
-            // Criar um player de áudio invisível com música de domínio público
-            // Usando uma melodia romântica simples
-            createRomanticMelody();
-        }
-
-        function stopMusic() {
-            isPlayingMusic = false;
-            musicBtn.textContent = '🎵';
-        }
-
-        function createRomanticMelody() {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-            // Melodia romântica completa
-            const notes = [
-                { freq: 261.63, dur: 0.5 },  // C
-                { freq: 329.63, dur: 0.5 },  // E
-                { freq: 392.00, dur: 0.5 },  // G
-                { freq: 523.25, dur: 1 },    // C (uma oitava acima)
-                { freq: 392.00, dur: 0.5 },  // G
-                { freq: 329.63, dur: 0.5 },  // E
-                { freq: 261.63, dur: 1 },    // C
-                { freq: 293.66, dur: 0.5 },  // D
-                { freq: 329.63, dur: 0.5 },  // E
-                { freq: 392.00, dur: 1 },    // G
-                { freq: 440.00, dur: 0.5 },  // A
-                { freq: 392.00, dur: 1.5 },  // G
-            ];
-
-            let time = audioContext.currentTime;
-
-            notes.forEach(note => {
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-
-                osc.frequency.value = note.freq;
-                osc.type = 'sine';
-
-                gain.gain.setValueAtTime(0.3, time);
-                gain.gain.exponentialRampToValueAtTime(0.01, time + note.dur);
-
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-
-                osc.start(time);
-                osc.stop(time + note.dur);
-
-                time += note.dur;
-            });
-
-            // Repetir a melodia enquanto estiver tocando
-            if (isPlayingMusic) {
-                setTimeout(() => {
-                    if (isPlayingMusic) {
-                        createRomanticMelody();
-                    }
-                }, time * 1000);
-            }
-        }
-
-        musicBtn.addEventListener('click', toggleMusic);
+            setTimeout(() => {
+                musicBtn.textContent = '🎵';
+            }, 2000);
+        });
     </script>
 </body>
 </html>
