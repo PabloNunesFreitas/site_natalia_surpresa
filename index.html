@@ -982,20 +982,35 @@
 
         // Música Romântica - "Ainda Bem" Xande de Pilares
         const musicBtn = document.getElementById('musicBtn');
+        let audioPlayer = null;
+        let isPlaying = false;
+
+        function createAudioPlayer() {
+            if (!audioPlayer) {
+                audioPlayer = new Audio('musica.mp3');
+                audioPlayer.volume = 0.5;
+                audioPlayer.loop = true;
+            }
+            return audioPlayer;
+        }
 
         musicBtn.addEventListener('click', () => {
-            // Abrir a música no Spotify ou YouTube
-            const spotifyUrl = 'https://open.spotify.com/track/0GBsYdxpAPsOd6H8QzGCCU';
-            const youtubeUrl = 'https://www.youtube.com/watch?v=cNaUG5Y8BnE';
+            const audio = createAudioPlayer();
 
-            // Tenta abrir no Spotify, se não tiver, abre no YouTube
-            window.open(spotifyUrl, '_blank');
-
-            // Mudar o ícone temporariamente
-            musicBtn.textContent = '🎵 ♫';
-            setTimeout(() => {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
                 musicBtn.textContent = '🎵';
-            }, 2000);
+            } else {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.textContent = '🎵 ♫';
+                }).catch(err => {
+                    console.log('Áudio iniciando...', err);
+                    isPlaying = true;
+                    musicBtn.textContent = '🎵 ♫';
+                });
+            }
         });
     </script>
 </body>
